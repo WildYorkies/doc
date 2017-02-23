@@ -16,6 +16,7 @@ abcdef
 abcdefg
 abcdefghi
 abcdefghij
+abcdefghijk
 abra
 abraca
 abracada
@@ -29,6 +30,7 @@ aeiou
 aj
 algebradebugger
 algebraparser
+ame
 anotherrole
 ao
 apoint
@@ -101,6 +103,7 @@ eoi
 eos
 ew
 fac
+failgoal
 failhash
 fairycake
 fbtb
@@ -113,6 +116,8 @@ firstname
 firstpos
 fn
 fo
+foldl
+foldr
 foober
 foodhandle
 foohandle
@@ -121,6 +126,7 @@ fptr
 frob
 frobnicate
 frobs
+fullname
 gaatcc
 gargravarr
 gecos
@@ -133,6 +139,7 @@ greatunclebulgaria
 groß
 hallo
 havestaticattr
+hb
 hdr
 headn
 hh
@@ -152,6 +159,7 @@ ipv
 isdst
 iter
 itotallyjustmadethisup
+jk
 jpe
 kbar
 keyvaluepairs
@@ -172,6 +180,7 @@ maybeval
 mday
 meth
 modulename
+moveup
 mtest
 muchmoresecure
 mult
@@ -184,8 +193,11 @@ myhome
 mylib
 mymodule
 myname
+myrange
 mysqlclient
+mystring
 mystruct
+mysum
 mytype
 myunion
 møp
@@ -199,6 +211,7 @@ nko
 noez
 nosuch
 notthere
+numlist
 obai
 objs
 ohai
@@ -213,7 +226,9 @@ otherrole
 outahere
 oxooo
 parentclass
+parseint
 perly
+plustwo
 postorder
 prettylist
 priv
@@ -231,9 +246,11 @@ renderbarchart
 restnameds
 restpos
 ret
+rst
 sayit
 saysomething
 setcallback
+setgoal
 sev
 shortname
 sleepsorter
@@ -259,6 +276,7 @@ tbar
 tbaz
 temphandle
 testactions
+testanimal
 testee
 testfile
 testgrammar

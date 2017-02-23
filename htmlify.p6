@@ -176,7 +176,7 @@ sub MAIN(
             warn-user Q/"\$*DISTRO == macos, so Proc::Async will not be used.
             due to freezes from using Proc::Async.
             For more info see Issue #1129/;
-            $no-proc-async = True;
+            $no-proc-async := True;
         }
         if $no-proc-async {
             warn-user "Proc::Async is disabled, this build will take a very long time.";
@@ -240,24 +240,6 @@ sub MAIN(
     spurt('html/links.txt', $url-log.URLS.sort.unique.join("\n"));
 }
 
-my $precomp-store = CompUnit::PrecompilationStore::File.new(:prefix($?FILE.IO.parent.child("precompiled")));
-my $precomp = CompUnit::PrecompilationRepository::Default.new(store => $precomp-store);
-
-sub extract-pod(IO() $file) {
-    use nqp;
-    # The file name is enough for the id because POD files don't have depends
-    my $id = nqp::sha1(~$file);
-    my $handle = $precomp.load($id,:since($file.modified))[0];
-
-    if not $handle {
-        # precompile it
-        $precomp.precompile($file, $id, :force);
-        $handle = $precomp.load($id)[0];
-    }
-
-    return nqp::atkey($handle.unit,'$=pod')[0];
-}
-
 sub process-pod-dir($dir, :&sorted-by = &[cmp], :$sparse, :$parallel) {
     say "Reading doc/$dir ...";
 
@@ -288,11 +270,11 @@ sub process-pod-dir($dir, :&sorted-by = &[cmp], :$sparse, :$parallel) {
         }
 
         if $num %% $parallel {
-            await(@pod-files);
+            await Promise.allof: @pod-files;
             @pod-files = ();
         }
 
-        LAST await(@pod-files);
+        LAST await Promise.allof: @pod-files;
     }
 }
 
@@ -695,13 +677,13 @@ sub write-type-graph-images(:$force, :$parallel) {
         my $viz = Perl6::TypeGraph::Viz.new-for-type($type);
         @type-graph-images.push: $viz.to-file("html/images/type-graph-{$type}.svg", format => 'svg');
         if @type-graph-images %% $parallel {
-            await(@type-graph-images);
+            await Promise.allof: @type-graph-images;
             @type-graph-images = ();
         }
 
         print '.';
 
-        LAST await(@type-graph-images);
+        LAST await Promise.allof: @type-graph-images;
     }
     say '';
 
@@ -718,11 +700,11 @@ sub write-type-graph-images(:$force, :$parallel) {
                                             :rank-dir('LR'));
         @specialized-visualizations.push: $viz.to-file("html/images/type-graph-{$group}.svg", format => 'svg');
         if @specialized-visualizations %% $parallel {
-            await(@specialized-visualizations);
+            await Promise.allof: @specialized-visualizations;
             @specialized-visualizations = ();
         }
 
-        LAST await(@specialized-visualizations);
+        LAST await Promise.allof: @specialized-visualizations;
     }
 }
 

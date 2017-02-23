@@ -522,14 +522,15 @@ Example:
     %h.push('c' => 4);                  # a => [1,1,1,1,1], b => 3, c => 4
     push %h, 'd' => 5;                  # a => [1,1,1,1,1], b => 3, c => 4, d => 5
 
-Be careful to quote the keys in the last two methods, as these have no effect:
+Please note that C<Pair>s or
+L<colon pairs|/language/glossary#index-entry-Colon_Pair> as arguments to push
+will be treated as extra named arguments and as such wont end up the C<Hash>.
+The same applies to the sub C<push>.
 
-=for code :skip-test
-%h.push(e => 6);
-push %h, f => 7;
-
-because they are interpreted as named arguments to C<push>, not positional
-arguments.
+    my %h .= push(e => 6);
+    push %h, f => 7;
+    say %h.perl;
+    # OUTPUT: «{}␤»
 
 Also note that push can be used as a replacement for assignment during hash
 initialization very useful ways. Take for instance the case of an inverted
@@ -543,6 +544,15 @@ Note that such a initialization could also be written as
 
     my %wc = 'hash' => 323, 'pair' => 322, 'pipe' => 323;
     my %inv .= push: %wc.invert.unique;
+
+B<Note:> Compared to L«C<append>|/routine/append», C<push> will add the given
+value as is, whereas C<append> will L«C<slip>|/routine/slip» it in:
+
+    my %ha = :a[42, ]; %ha.push: "a" => <a b c a>;
+    say %ha; # OUTPUT: «{a => [42 (a b c a)]}␤»
+
+    my %hb = :a[42, ]; %hb.append: "a" => <a b c a>;
+    say %hb; # OUTPUT: «{a => [42 a b c a]}␤»
 
 =head2 method append
 
@@ -563,6 +573,16 @@ arguments|/type/Signature#Positional_vs._Named> to C<.append>.
     # OUTPUT: «{a => 1, b => 2, c => 3, d => 4}␤»
     %h.append('a', 2);
     # OUTPUT: «{{a => [1 2], b => 2, c => 3, d => 4}␤»
+
+B<Note:> Compared to L«C<push>|/routine/push», C<append> will
+L«C<slip>|/routine/slip» in the given value, whereas C<push> will add it as
+is:
+
+    my %hb = :a[42, ]; %hb.append: "a" => <a b c a>;
+    say %hb; # OUTPUT: «{a => [42 a b c a]}␤»
+
+    my %ha = :a[42, ]; %ha.push: "a" => <a b c a>;
+    say %ha; # OUTPUT: «{a => [42 (a b c a)]}␤»
 
 =head2 method default
 

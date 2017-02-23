@@ -147,6 +147,7 @@ cis
 classhow
 classname
 classtut
+cli
 closedir
 cmd
 cmp
@@ -157,6 +158,7 @@ coercions
 colonpair
 colour
 combinator
+combinators
 commandline
 comparator
 compilable
@@ -405,6 +407,7 @@ hardcoded
 hartl
 hashref
 haskell
+haskelly
 heredoc
 heredocs
 hexdump
@@ -496,6 +499,7 @@ kvpair
 kxxv
 lakhs
 langs
+lastcall
 lcfirst
 ld
 leanly
@@ -542,6 +546,7 @@ marshalling
 matcher
 matchers
 maxbuf
+maxpairs
 mbc
 mbigint
 mdash
@@ -559,6 +564,7 @@ metre
 minibuffer
 minimalistic
 minmax
+minpairs
 missinginitializer
 mixhash
 mixhashes
@@ -631,6 +637,7 @@ niecza
 nl
 nodality
 nodejs
+nodemap
 nodispatcher
 nofile
 nok
@@ -834,6 +841,8 @@ regex
 regexes
 reification
 reified
+reifier
+reifying
 repl
 repo
 repositoryregistry
@@ -1062,11 +1071,13 @@ trie
 trueness
 truthy
 tty
+tuples
 twigil
 twigils
 typecheck
 typechecked
 typechecks
+typeclasses
 typediag
 typeglobs
 typename
@@ -1137,6 +1148,7 @@ vec
 vegeta
 ver
 verifications
+versa
 versioning
 viewport
 vivification

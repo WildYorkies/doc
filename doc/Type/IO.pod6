@@ -230,7 +230,9 @@ written equivalently like so:
 
 When a file was opened for writing, closing it is important to ensure that all
 contents are actually written to the file. You may want to consider using a
-L<LEAVE|/language/phasers#LEAVE> phaser to guard against exceptions.
+L<LEAVE|/language/phasers#LEAVE> phaser to guard against exceptions in
+your code that could prevent your program from reaching the line with
+C<$fh.close>.
 
 =head2 sub slurp
 
@@ -311,7 +313,13 @@ C<False>.
 
     sub run(*@args ($, *@) --> Proc)
 
-Runs an external command without involving a shell (if possible).
+Runs an external command without involving a shell.
+
+    run ‚touch‘, ‚>foo.txt‘; # no shell redirect (as there is no shell)
+    shell ‚ls \>*‘;          # the shell would redirect, hence the backslash
+                             # and the glob is expanded
+    run Q:w{rm >foo.txt};    # again no redirect but with a list word quote
+    # OUTPUT: «>foo.txt»
 
 See L<Proc|/type/Proc> for more details, for example on how to capture
 output.
@@ -322,7 +330,9 @@ output.
 
 Runs a command through the system shell. All shell meta characters are
 interpreted by the shell, including pipes, redirects, environment variable
-substitutions and so on. See L<run|/type/IO#sub_run> if you don't want that.
+substitutions and so on. Shell escapes are a severe security concern and can
+cause confusion with unusual file names. Use L<run|/type/IO#sub_run> if you
+want to be safe.
 
 The return value is of L<type Proc|/type/Proc>.
 

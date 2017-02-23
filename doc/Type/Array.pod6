@@ -40,7 +40,7 @@ Defined as:
     multi method push(Array:D: **@values --> Array:D)
 
 Adds the C<@values> to the end of the array, and returns the modified list.
-Fails for infinite arrays.
+Throws for lazy arrays.
 
 Example:
 
@@ -80,7 +80,7 @@ sub append(\array, elems)
     multi method append(Array:D: **@values is raw)
 
 Appends the argument list to the array passed as the first argument.  This
-modifies the array in-place.  Returns the modified array.
+modifies the array in-place.  Returns the modified array. Throws for lazy arrays.
 
 The difference from method C<push> is that with an array or list argument,
 C<append> appends several elements (one for each array or list element),
@@ -93,6 +93,32 @@ Example:
     @a.append: @b;
     say @a.elems;               # OUTPUT: «6␤»
     say @a;                     # OUTPUT: «[a b c d e f]␤»
+
+=head2 method clone
+
+Defined as:
+
+    method clone(Array:D: --> Array:D)
+
+Clones the original C<Array>. Modifications of elements in the clone
+are not propagated to the original and vice-versa:
+
+    my @a = <a b c>; my @b = @a.clone;
+    @b[1] = 42; @a.push: 72;
+    say @b; # OUTPUT: «[a 42 c]␤»
+    say @a; # OUTPUT: «[a b c 72]␤»
+
+However, note that the reifier I<is> shared between the two Arrays,
+so both Arrays will have the same elements even when each is randomly-generated
+on reification and each element will be reified just once, regardless of
+whether the reification was done by the clone or the original Array.
+B<Note:> just as reifying an Array from multiple threads is not safe,
+so is, for example, reifying the clone from one thread while reifying
+the original from another thread is not safe.
+
+    my @a = 1, {rand} … ∞; my @b = @a.clone;
+    say @b[^3]; # OUTPUT: «(1 0.0216426755282736 0.567660896142156)␤»
+    say @a[^3]; # OUTPUT: «(1 0.0216426755282736 0.567660896142156)␤»
 
 =head2 routine shift
 
